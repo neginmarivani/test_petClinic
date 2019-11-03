@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: JacksonCustomOwnerDeserializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.rest</a> ]
+</div>
+
+<h1>Coverage Summary for Class: JacksonCustomOwnerDeserializer (org.springframework.samples.petclinic.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JacksonCustomOwnerDeserializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2016 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;package org.springframework.samples.petclinic.rest;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import java.io.IOException;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import org.springframework.samples.petclinic.model.Owner;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;import com.fasterxml.jackson.core.JsonParser;
+<i>24</i>&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+<i>25</i>&nbsp;import com.fasterxml.jackson.databind.DeserializationContext;
+<i>26</i>&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+<i>27</i>&nbsp;import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;/**
+<i>30</i>&nbsp; * @author Vitaliy Fedoriv
+<i>31</i>&nbsp; *
+<i>32</i>&nbsp; */
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;public class JacksonCustomOwnerDeserializer extends StdDeserializer&lt;Owner&gt; {
+<i>35</i>&nbsp;	
+<i>36</i>&nbsp;	public JacksonCustomOwnerDeserializer(){
+<b class="nc"><i>37</i>&nbsp;		this(null);</b>
+<b class="nc"><i>38</i>&nbsp;	}</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;	public JacksonCustomOwnerDeserializer(Class&lt;Owner&gt; t) {
+<b class="nc"><i>41</i>&nbsp;		super(t);</b>
+<b class="nc"><i>42</i>&nbsp;	}</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;	@Override
+<i>45</i>&nbsp;	public Owner deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+<b class="nc"><i>46</i>&nbsp;		JsonNode node = parser.getCodec().readTree(parser);</b>
+<b class="nc"><i>47</i>&nbsp;		Owner owner = new Owner();</b>
+<b class="nc"><i>48</i>&nbsp;		int id = node.get(&quot;id&quot;).asInt();</b>
+<b class="nc"><i>49</i>&nbsp;		String firstName = node.get(&quot;firstName&quot;).asText(null);</b>
+<b class="nc"><i>50</i>&nbsp;		String lastName = node.get(&quot;lastName&quot;).asText(null);</b>
+<b class="nc"><i>51</i>&nbsp;		String address = node.get(&quot;address&quot;).asText(null);</b>
+<b class="nc"><i>52</i>&nbsp;		String city = node.get(&quot;city&quot;).asText(null);</b>
+<b class="nc"><i>53</i>&nbsp;		String telephone = node.get(&quot;telephone&quot;).asText(null);</b>
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;		if (!(id == 0)) {</b>
+<b class="nc"><i>56</i>&nbsp;			owner.setId(id);</b>
+<i>57</i>&nbsp;		}
+<b class="nc"><i>58</i>&nbsp;        owner.setFirstName(firstName);</b>
+<b class="nc"><i>59</i>&nbsp;        owner.setLastName(lastName);</b>
+<b class="nc"><i>60</i>&nbsp;        owner.setAddress(address);</b>
+<b class="nc"><i>61</i>&nbsp;        owner.setCity(city);</b>
+<b class="nc"><i>62</i>&nbsp;        owner.setTelephone(telephone);</b>
+<b class="nc"><i>63</i>&nbsp;		return owner;</b>
+<i>64</i>&nbsp;	}
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

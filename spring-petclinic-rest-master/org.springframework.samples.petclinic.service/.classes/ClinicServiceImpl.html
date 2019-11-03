@@ -1,0 +1,374 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClinicServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClinicServiceImpl (org.springframework.samples.petclinic.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClinicServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.4%
+  </span>
+  <span class="absValue">
+    (1/ 29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10.3%
+  </span>
+  <span class="absValue">
+    (8/ 78)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2002-2017 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;package org.springframework.samples.petclinic.service;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.util.Collection;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>21</i>&nbsp;import org.springframework.cache.annotation.Cacheable;
+<i>22</i>&nbsp;import org.springframework.dao.DataAccessException;
+<i>23</i>&nbsp;import org.springframework.dao.EmptyResultDataAccessException;
+<i>24</i>&nbsp;import org.springframework.orm.ObjectRetrievalFailureException;
+<i>25</i>&nbsp;import org.springframework.samples.petclinic.model.Owner;
+<i>26</i>&nbsp;import org.springframework.samples.petclinic.model.Pet;
+<i>27</i>&nbsp;import org.springframework.samples.petclinic.model.PetType;
+<i>28</i>&nbsp;import org.springframework.samples.petclinic.model.Specialty;
+<i>29</i>&nbsp;import org.springframework.samples.petclinic.model.Vet;
+<i>30</i>&nbsp;import org.springframework.samples.petclinic.model.Visit;
+<i>31</i>&nbsp;import org.springframework.samples.petclinic.repository.OwnerRepository;
+<i>32</i>&nbsp;import org.springframework.samples.petclinic.repository.PetRepository;
+<i>33</i>&nbsp;import org.springframework.samples.petclinic.repository.PetTypeRepository;
+<i>34</i>&nbsp;import org.springframework.samples.petclinic.repository.SpecialtyRepository;
+<i>35</i>&nbsp;import org.springframework.samples.petclinic.repository.VetRepository;
+<i>36</i>&nbsp;import org.springframework.samples.petclinic.repository.VisitRepository;
+<i>37</i>&nbsp;import org.springframework.stereotype.Service;
+<i>38</i>&nbsp;import org.springframework.transaction.annotation.Transactional;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;/**
+<i>41</i>&nbsp; * Mostly used as a facade for all Petclinic controllers
+<i>42</i>&nbsp; * Also a placeholder for @Transactional and @Cacheable annotations
+<i>43</i>&nbsp; *
+<i>44</i>&nbsp; * @author Michael Isvy
+<i>45</i>&nbsp; * @author Vitaliy Fedoriv
+<i>46</i>&nbsp; */
+<i>47</i>&nbsp;@Service
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;public class ClinicServiceImpl implements ClinicService {
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    private PetRepository petRepository;
+<i>52</i>&nbsp;    private VetRepository vetRepository;
+<i>53</i>&nbsp;    private OwnerRepository ownerRepository;
+<i>54</i>&nbsp;    private VisitRepository visitRepository;
+<i>55</i>&nbsp;    private SpecialtyRepository specialtyRepository;
+<i>56</i>&nbsp;	private PetTypeRepository petTypeRepository;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Autowired
+<i>59</i>&nbsp;     public ClinicServiceImpl(
+<i>60</i>&nbsp;       		 PetRepository petRepository,
+<i>61</i>&nbsp;    		 VetRepository vetRepository,
+<i>62</i>&nbsp;    		 OwnerRepository ownerRepository,
+<i>63</i>&nbsp;    		 VisitRepository visitRepository,
+<i>64</i>&nbsp;    		 SpecialtyRepository specialtyRepository,
+<b class="fc"><i>65</i>&nbsp;			 PetTypeRepository petTypeRepository) {</b>
+<b class="fc"><i>66</i>&nbsp;        this.petRepository = petRepository;</b>
+<b class="fc"><i>67</i>&nbsp;        this.vetRepository = vetRepository;</b>
+<b class="fc"><i>68</i>&nbsp;        this.ownerRepository = ownerRepository;</b>
+<b class="fc"><i>69</i>&nbsp;        this.visitRepository = visitRepository;</b>
+<b class="fc"><i>70</i>&nbsp;        this.specialtyRepository = specialtyRepository; </b>
+<b class="fc"><i>71</i>&nbsp;		this.petTypeRepository = petTypeRepository;</b>
+<b class="fc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;	@Override
+<i>75</i>&nbsp;	@Transactional(readOnly = true)
+<i>76</i>&nbsp;	public Collection&lt;Pet&gt; findAllPets() throws DataAccessException {
+<b class="nc"><i>77</i>&nbsp;		return petRepository.findAll();</b>
+<i>78</i>&nbsp;	}
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;	@Override
+<i>81</i>&nbsp;	@Transactional
+<i>82</i>&nbsp;	public void deletePet(Pet pet) throws DataAccessException {
+<b class="nc"><i>83</i>&nbsp;		petRepository.delete(pet);</b>
+<b class="nc"><i>84</i>&nbsp;	}</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;	@Override
+<i>87</i>&nbsp;	@Transactional(readOnly = true)
+<i>88</i>&nbsp;	public Visit findVisitById(int visitId) throws DataAccessException {
+<b class="nc"><i>89</i>&nbsp;		Visit visit = null;</b>
+<i>90</i>&nbsp;		try {
+<b class="nc"><i>91</i>&nbsp;			visit = visitRepository.findById(visitId);</b>
+<b class="nc"><i>92</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>93</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>94</i>&nbsp;			return null;</b>
+<b class="nc"><i>95</i>&nbsp;		}</b>
+<b class="nc"><i>96</i>&nbsp;		return visit;</b>
+<i>97</i>&nbsp;	}
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;	@Override
+<i>100</i>&nbsp;	@Transactional(readOnly = true)
+<i>101</i>&nbsp;	public Collection&lt;Visit&gt; findAllVisits() throws DataAccessException {
+<b class="nc"><i>102</i>&nbsp;		return visitRepository.findAll();</b>
+<i>103</i>&nbsp;	}
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;	@Override
+<i>106</i>&nbsp;	@Transactional
+<i>107</i>&nbsp;	public void deleteVisit(Visit visit) throws DataAccessException {
+<b class="nc"><i>108</i>&nbsp;		visitRepository.delete(visit);</b>
+<b class="nc"><i>109</i>&nbsp;	}</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;	@Override
+<i>112</i>&nbsp;	@Transactional(readOnly = true)
+<i>113</i>&nbsp;	public Vet findVetById(int id) throws DataAccessException {
+<b class="nc"><i>114</i>&nbsp;		Vet vet = null;</b>
+<i>115</i>&nbsp;		try {
+<b class="nc"><i>116</i>&nbsp;			vet = vetRepository.findById(id);</b>
+<b class="nc"><i>117</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>118</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>119</i>&nbsp;			return null;</b>
+<b class="nc"><i>120</i>&nbsp;		}</b>
+<b class="nc"><i>121</i>&nbsp;		return vet;</b>
+<i>122</i>&nbsp;	}
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;	@Override
+<i>125</i>&nbsp;	@Transactional(readOnly = true)
+<i>126</i>&nbsp;	public Collection&lt;Vet&gt; findAllVets() throws DataAccessException {
+<b class="nc"><i>127</i>&nbsp;		return vetRepository.findAll();</b>
+<i>128</i>&nbsp;	}
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;	@Override
+<i>131</i>&nbsp;	@Transactional
+<i>132</i>&nbsp;	public void saveVet(Vet vet) throws DataAccessException {
+<b class="nc"><i>133</i>&nbsp;		vetRepository.save(vet);</b>
+<b class="nc"><i>134</i>&nbsp;	}</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;	@Override
+<i>137</i>&nbsp;	@Transactional
+<i>138</i>&nbsp;	public void deleteVet(Vet vet) throws DataAccessException {
+<b class="nc"><i>139</i>&nbsp;		vetRepository.delete(vet);</b>
+<b class="nc"><i>140</i>&nbsp;	}</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;	@Override
+<i>143</i>&nbsp;	@Transactional(readOnly = true)
+<i>144</i>&nbsp;	public Collection&lt;Owner&gt; findAllOwners() throws DataAccessException {
+<b class="nc"><i>145</i>&nbsp;		return ownerRepository.findAll();</b>
+<i>146</i>&nbsp;	}
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;	@Override
+<i>149</i>&nbsp;	@Transactional
+<i>150</i>&nbsp;	public void deleteOwner(Owner owner) throws DataAccessException {
+<b class="nc"><i>151</i>&nbsp;		ownerRepository.delete(owner);</b>
+<b class="nc"><i>152</i>&nbsp;	}</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;	@Override
+<i>155</i>&nbsp;	@Transactional(readOnly = true)
+<i>156</i>&nbsp;	public PetType findPetTypeById(int petTypeId) {
+<b class="nc"><i>157</i>&nbsp;		PetType petType = null;</b>
+<i>158</i>&nbsp;		try {
+<b class="nc"><i>159</i>&nbsp;			petType = petTypeRepository.findById(petTypeId);</b>
+<b class="nc"><i>160</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>161</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>162</i>&nbsp;			return null;</b>
+<b class="nc"><i>163</i>&nbsp;		}</b>
+<b class="nc"><i>164</i>&nbsp;		return petType;</b>
+<i>165</i>&nbsp;	}
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;	@Override
+<i>168</i>&nbsp;	@Transactional(readOnly = true)
+<i>169</i>&nbsp;	public Collection&lt;PetType&gt; findAllPetTypes() throws DataAccessException {
+<b class="nc"><i>170</i>&nbsp;		return petTypeRepository.findAll();</b>
+<i>171</i>&nbsp;	}
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;	@Override
+<i>174</i>&nbsp;	@Transactional
+<i>175</i>&nbsp;	public void savePetType(PetType petType) throws DataAccessException {
+<b class="nc"><i>176</i>&nbsp;		petTypeRepository.save(petType);</b>
+<b class="nc"><i>177</i>&nbsp;	}</b>
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;	@Override
+<i>180</i>&nbsp;	@Transactional
+<i>181</i>&nbsp;	public void deletePetType(PetType petType) throws DataAccessException {
+<b class="nc"><i>182</i>&nbsp;		petTypeRepository.delete(petType);</b>
+<b class="nc"><i>183</i>&nbsp;	}</b>
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;	@Override
+<i>186</i>&nbsp;	@Transactional(readOnly = true)
+<i>187</i>&nbsp;	public Specialty findSpecialtyById(int specialtyId) {
+<b class="nc"><i>188</i>&nbsp;		Specialty specialty = null;</b>
+<i>189</i>&nbsp;		try {
+<b class="nc"><i>190</i>&nbsp;			specialty = specialtyRepository.findById(specialtyId);</b>
+<b class="nc"><i>191</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>192</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>193</i>&nbsp;			return null;</b>
+<b class="nc"><i>194</i>&nbsp;		}</b>
+<b class="nc"><i>195</i>&nbsp;		return specialty;</b>
+<i>196</i>&nbsp;	}
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;	@Override
+<i>199</i>&nbsp;	@Transactional(readOnly = true)
+<i>200</i>&nbsp;	public Collection&lt;Specialty&gt; findAllSpecialties() throws DataAccessException {
+<b class="nc"><i>201</i>&nbsp;		return specialtyRepository.findAll();</b>
+<i>202</i>&nbsp;	}
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;	@Override
+<i>205</i>&nbsp;	@Transactional
+<i>206</i>&nbsp;	public void saveSpecialty(Specialty specialty) throws DataAccessException {
+<b class="nc"><i>207</i>&nbsp;		specialtyRepository.save(specialty);</b>
+<b class="nc"><i>208</i>&nbsp;	}</b>
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;	@Override
+<i>211</i>&nbsp;	@Transactional
+<i>212</i>&nbsp;	public void deleteSpecialty(Specialty specialty) throws DataAccessException {
+<b class="nc"><i>213</i>&nbsp;		specialtyRepository.delete(specialty);</b>
+<b class="nc"><i>214</i>&nbsp;	}</b>
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;	@Override
+<i>217</i>&nbsp;	@Transactional(readOnly = true)
+<i>218</i>&nbsp;	public Collection&lt;PetType&gt; findPetTypes() throws DataAccessException {
+<b class="nc"><i>219</i>&nbsp;		return petRepository.findPetTypes();</b>
+<i>220</i>&nbsp;	}
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;	@Override
+<i>223</i>&nbsp;	@Transactional(readOnly = true)
+<i>224</i>&nbsp;	public Owner findOwnerById(int id) throws DataAccessException {
+<b class="nc"><i>225</i>&nbsp;		Owner owner = null;</b>
+<i>226</i>&nbsp;		try {
+<b class="nc"><i>227</i>&nbsp;			owner = ownerRepository.findById(id);</b>
+<b class="nc"><i>228</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>229</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>230</i>&nbsp;			return null;</b>
+<b class="nc"><i>231</i>&nbsp;		}</b>
+<b class="nc"><i>232</i>&nbsp;		return owner;</b>
+<i>233</i>&nbsp;	}
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;	@Override
+<i>236</i>&nbsp;	@Transactional(readOnly = true)
+<i>237</i>&nbsp;	public Pet findPetById(int id) throws DataAccessException {
+<b class="nc"><i>238</i>&nbsp;		Pet pet = null;</b>
+<i>239</i>&nbsp;		try {
+<b class="nc"><i>240</i>&nbsp;			pet = petRepository.findById(id);</b>
+<b class="nc"><i>241</i>&nbsp;		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {</b>
+<i>242</i>&nbsp;		// just ignore not found exceptions for Jdbc/Jpa realization
+<b class="nc"><i>243</i>&nbsp;			return null;</b>
+<b class="nc"><i>244</i>&nbsp;		}</b>
+<b class="nc"><i>245</i>&nbsp;		return pet;</b>
+<i>246</i>&nbsp;	}
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;	@Override
+<i>249</i>&nbsp;	@Transactional
+<i>250</i>&nbsp;	public void savePet(Pet pet) throws DataAccessException {
+<b class="nc"><i>251</i>&nbsp;		petRepository.save(pet);</b>
+<i>252</i>&nbsp;		
+<b class="nc"><i>253</i>&nbsp;	}</b>
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;	@Override
+<i>256</i>&nbsp;	@Transactional
+<i>257</i>&nbsp;	public void saveVisit(Visit visit) throws DataAccessException {
+<b class="nc"><i>258</i>&nbsp;		visitRepository.save(visit);</b>
+<i>259</i>&nbsp;		
+<b class="nc"><i>260</i>&nbsp;	}</b>
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;	@Override
+<i>263</i>&nbsp;	@Transactional(readOnly = true)
+<i>264</i>&nbsp;    @Cacheable(value = &quot;vets&quot;)
+<i>265</i>&nbsp;	public Collection&lt;Vet&gt; findVets() throws DataAccessException {
+<b class="nc"><i>266</i>&nbsp;		return vetRepository.findAll();</b>
+<i>267</i>&nbsp;	}
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;	@Override
+<i>270</i>&nbsp;	@Transactional
+<i>271</i>&nbsp;	public void saveOwner(Owner owner) throws DataAccessException {
+<b class="nc"><i>272</i>&nbsp;		ownerRepository.save(owner);</b>
+<i>273</i>&nbsp;		
+<b class="nc"><i>274</i>&nbsp;	}</b>
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;	@Override
+<i>277</i>&nbsp;	@Transactional(readOnly = true)
+<i>278</i>&nbsp;	public Collection&lt;Owner&gt; findOwnerByLastName(String lastName) throws DataAccessException {
+<b class="nc"><i>279</i>&nbsp;		return ownerRepository.findByLastName(lastName);</b>
+<i>280</i>&nbsp;	}
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;	@Override
+<i>283</i>&nbsp;	@Transactional(readOnly = true)
+<i>284</i>&nbsp;	public Collection&lt;Visit&gt; findVisitsByPetId(int petId) {
+<b class="nc"><i>285</i>&nbsp;		return visitRepository.findByPetId(petId);</b>
+<i>286</i>&nbsp;	}
+<i>287</i>&nbsp;	
+<i>288</i>&nbsp;	
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;
+<i>291</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

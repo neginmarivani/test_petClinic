@@ -1,0 +1,127 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SpringDataSpecialtyRepositoryImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.repository.springdatajpa</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SpringDataSpecialtyRepositoryImpl (org.springframework.samples.petclinic.repository.springdatajpa)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpringDataSpecialtyRepositoryImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2016-2017 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;package org.springframework.samples.petclinic.repository.springdatajpa;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import javax.persistence.EntityManager;
+<i>20</i>&nbsp;import javax.persistence.PersistenceContext;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import org.springframework.context.annotation.Profile;
+<i>23</i>&nbsp;import org.springframework.samples.petclinic.model.Specialty;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;/**
+<i>26</i>&nbsp; * @author Vitaliy Fedoriv
+<i>27</i>&nbsp; *
+<i>28</i>&nbsp; */
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;@Profile(&quot;spring-data-jpa&quot;)
+<b class="fc"><i>31</i>&nbsp;public class SpringDataSpecialtyRepositoryImpl implements SpecialtyRepositoryOverride {</b>
+<i>32</i>&nbsp;	
+<i>33</i>&nbsp;	@PersistenceContext
+<i>34</i>&nbsp;    private EntityManager em;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;	@Override
+<i>37</i>&nbsp;	public void delete(Specialty specialty) {
+<b class="nc"><i>38</i>&nbsp;        this.em.remove(this.em.contains(specialty) ? specialty : this.em.merge(specialty));</b>
+<b class="nc"><i>39</i>&nbsp;		Integer specId = specialty.getId();</b>
+<b class="nc"><i>40</i>&nbsp;		this.em.createNativeQuery(&quot;DELETE FROM vet_specialties WHERE specialty_id=&quot; + specId).executeUpdate();</b>
+<b class="nc"><i>41</i>&nbsp;		this.em.createQuery(&quot;DELETE FROM Specialty specialty WHERE id=&quot; + specId).executeUpdate();</b>
+<b class="nc"><i>42</i>&nbsp;	}</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

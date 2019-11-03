@@ -1,0 +1,302 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: JdbcVetRepositoryImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.repository.jdbc</a> ]
+</div>
+
+<h1>Coverage Summary for Class: JdbcVetRepositoryImpl (org.springframework.samples.petclinic.repository.jdbc)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JdbcVetRepositoryImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 58)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">JdbcVetRepositoryImpl$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">JdbcVetRepositoryImpl$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 62)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2002-2018 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;package org.springframework.samples.petclinic.repository.jdbc;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.sql.ResultSet;
+<i>19</i>&nbsp;import java.sql.SQLException;
+<i>20</i>&nbsp;import java.util.ArrayList;
+<i>21</i>&nbsp;import java.util.Collection;
+<i>22</i>&nbsp;import java.util.HashMap;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.Map;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;import javax.sql.DataSource;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>29</i>&nbsp;import org.springframework.context.annotation.Profile;
+<i>30</i>&nbsp;import org.springframework.dao.DataAccessException;
+<i>31</i>&nbsp;import org.springframework.dao.EmptyResultDataAccessException;
+<i>32</i>&nbsp;import org.springframework.jdbc.core.BeanPropertyRowMapper;
+<i>33</i>&nbsp;import org.springframework.jdbc.core.JdbcTemplate;
+<i>34</i>&nbsp;import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+<i>35</i>&nbsp;import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+<i>36</i>&nbsp;import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+<i>37</i>&nbsp;import org.springframework.orm.ObjectRetrievalFailureException;
+<i>38</i>&nbsp;import org.springframework.samples.petclinic.model.Specialty;
+<i>39</i>&nbsp;import org.springframework.samples.petclinic.model.Vet;
+<i>40</i>&nbsp;import org.springframework.samples.petclinic.repository.VetRepository;
+<i>41</i>&nbsp;import org.springframework.samples.petclinic.util.EntityUtils;
+<i>42</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;/**
+<i>45</i>&nbsp; * A simple JDBC-based implementation of the {@link VetRepository} interface.
+<i>46</i>&nbsp; *
+<i>47</i>&nbsp; * @author Ken Krebs
+<i>48</i>&nbsp; * @author Juergen Hoeller
+<i>49</i>&nbsp; * @author Rob Harrop
+<i>50</i>&nbsp; * @author Sam Brannen
+<i>51</i>&nbsp; * @author Thomas Risberg
+<i>52</i>&nbsp; * @author Mark Fisher
+<i>53</i>&nbsp; * @author Michael Isvy
+<i>54</i>&nbsp; * @author Vitaliy Fedoriv
+<i>55</i>&nbsp; */
+<i>56</i>&nbsp;@Repository
+<i>57</i>&nbsp;@Profile(&quot;jdbc&quot;)
+<i>58</i>&nbsp;public class JdbcVetRepositoryImpl implements VetRepository {
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    private JdbcTemplate jdbcTemplate;
+<i>61</i>&nbsp;	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+<i>62</i>&nbsp;	private SimpleJdbcInsert insertVet;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Autowired
+<b class="nc"><i>65</i>&nbsp;    public JdbcVetRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate) {</b>
+<b class="nc"><i>66</i>&nbsp;        this.jdbcTemplate = jdbcTemplate;</b>
+<b class="nc"><i>67</i>&nbsp;		this.insertVet = new SimpleJdbcInsert(dataSource).withTableName(&quot;vets&quot;).usingGeneratedKeyColumns(&quot;id&quot;);</b>
+<b class="nc"><i>68</i>&nbsp;		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Refresh the cache of Vets that the ClinicService is holding.
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    @Override
+<i>75</i>&nbsp;    public Collection&lt;Vet&gt; findAll() throws DataAccessException {
+<b class="nc"><i>76</i>&nbsp;        List&lt;Vet&gt; vets = new ArrayList&lt;&gt;();</b>
+<i>77</i>&nbsp;        // Retrieve the list of all vets.
+<b class="nc"><i>78</i>&nbsp;        vets.addAll(this.jdbcTemplate.query(</b>
+<i>79</i>&nbsp;            &quot;SELECT id, first_name, last_name FROM vets ORDER BY last_name,first_name&quot;,
+<b class="nc"><i>80</i>&nbsp;            BeanPropertyRowMapper.newInstance(Vet.class)));</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;        // Retrieve the list of all possible specialties.
+<b class="nc"><i>83</i>&nbsp;        final List&lt;Specialty&gt; specialties = this.jdbcTemplate.query(</b>
+<i>84</i>&nbsp;            &quot;SELECT id, name FROM specialties&quot;,
+<b class="nc"><i>85</i>&nbsp;            BeanPropertyRowMapper.newInstance(Specialty.class));</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;        // Build each vet&#39;s list of specialties.
+<b class="nc"><i>88</i>&nbsp;        for (Vet vet : vets) {</b>
+<b class="nc"><i>89</i>&nbsp;            final List&lt;Integer&gt; vetSpecialtiesIds = this.jdbcTemplate.query(</b>
+<i>90</i>&nbsp;                &quot;SELECT specialty_id FROM vet_specialties WHERE vet_id=?&quot;,
+<b class="nc"><i>91</i>&nbsp;                new BeanPropertyRowMapper&lt;Integer&gt;() {</b>
+<i>92</i>&nbsp;                    @Override
+<i>93</i>&nbsp;                    public Integer mapRow(ResultSet rs, int row) throws SQLException {
+<b class="nc"><i>94</i>&nbsp;                        return rs.getInt(1);</b>
+<i>95</i>&nbsp;                    }
+<i>96</i>&nbsp;                },
+<b class="nc"><i>97</i>&nbsp;                vet.getId());</b>
+<b class="nc"><i>98</i>&nbsp;            for (int specialtyId : vetSpecialtiesIds) {</b>
+<b class="nc"><i>99</i>&nbsp;                Specialty specialty = EntityUtils.getById(specialties, Specialty.class, specialtyId);</b>
+<b class="nc"><i>100</i>&nbsp;                vet.addSpecialty(specialty);</b>
+<b class="nc"><i>101</i>&nbsp;            }</b>
+<b class="nc"><i>102</i>&nbsp;        }</b>
+<b class="nc"><i>103</i>&nbsp;        return vets;</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;    
+<i>106</i>&nbsp;	@Override
+<i>107</i>&nbsp;	public Vet findById(int id) throws DataAccessException {
+<i>108</i>&nbsp;		Vet vet;
+<i>109</i>&nbsp;		try {
+<b class="nc"><i>110</i>&nbsp;			Map&lt;String, Object&gt; vet_params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>111</i>&nbsp;			vet_params.put(&quot;id&quot;, id);</b>
+<b class="nc"><i>112</i>&nbsp;			vet = this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>113</i>&nbsp;					&quot;SELECT id, first_name, last_name FROM vets WHERE id= :id&quot;,
+<i>114</i>&nbsp;					vet_params,
+<b class="nc"><i>115</i>&nbsp;					BeanPropertyRowMapper.newInstance(Vet.class));</b>
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;			final List&lt;Specialty&gt; specialties = this.namedParameterJdbcTemplate.query(</b>
+<b class="nc"><i>118</i>&nbsp;					&quot;SELECT id, name FROM specialties&quot;, vet_params, BeanPropertyRowMapper.newInstance(Specialty.class));</b>
+<i>119</i>&nbsp;
+<b class="nc"><i>120</i>&nbsp;			final List&lt;Integer&gt; vetSpecialtiesIds = this.namedParameterJdbcTemplate.query(</b>
+<i>121</i>&nbsp;					&quot;SELECT specialty_id FROM vet_specialties WHERE vet_id=:id&quot;,
+<i>122</i>&nbsp;					vet_params,
+<b class="nc"><i>123</i>&nbsp;					new BeanPropertyRowMapper&lt;Integer&gt;() {</b>
+<i>124</i>&nbsp;						@Override
+<i>125</i>&nbsp;						public Integer mapRow(ResultSet rs, int row) throws SQLException {
+<b class="nc"><i>126</i>&nbsp;							return rs.getInt(1);</b>
+<i>127</i>&nbsp;						}
+<i>128</i>&nbsp;					});
+<b class="nc"><i>129</i>&nbsp;			for (int specialtyId : vetSpecialtiesIds) {</b>
+<b class="nc"><i>130</i>&nbsp;				Specialty specialty = EntityUtils.getById(specialties, Specialty.class, specialtyId);</b>
+<b class="nc"><i>131</i>&nbsp;				vet.addSpecialty(specialty);</b>
+<b class="nc"><i>132</i>&nbsp;			}</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;		} catch (EmptyResultDataAccessException ex) {</b>
+<b class="nc"><i>135</i>&nbsp;			throw new ObjectRetrievalFailureException(Vet.class, id);</b>
+<b class="nc"><i>136</i>&nbsp;		}</b>
+<b class="nc"><i>137</i>&nbsp;		return vet;</b>
+<i>138</i>&nbsp;	}
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;	@Override
+<i>141</i>&nbsp;	public void save(Vet vet) throws DataAccessException {
+<b class="nc"><i>142</i>&nbsp;		BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(vet);</b>
+<b class="nc"><i>143</i>&nbsp;		if (vet.isNew()) {</b>
+<b class="nc"><i>144</i>&nbsp;			Number newKey = this.insertVet.executeAndReturnKey(parameterSource);</b>
+<b class="nc"><i>145</i>&nbsp;			vet.setId(newKey.intValue());</b>
+<b class="nc"><i>146</i>&nbsp;			updateVetSpecialties(vet);</b>
+<b class="nc"><i>147</i>&nbsp;		} else {</b>
+<b class="nc"><i>148</i>&nbsp;			this.namedParameterJdbcTemplate</b>
+<b class="nc"><i>149</i>&nbsp;					.update(&quot;UPDATE vets SET first_name=:firstName, last_name=:lastName WHERE id=:id&quot;, parameterSource);</b>
+<b class="nc"><i>150</i>&nbsp;			updateVetSpecialties(vet);</b>
+<i>151</i>&nbsp;		}
+<b class="nc"><i>152</i>&nbsp;	}</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;	@Override
+<i>155</i>&nbsp;	public void delete(Vet vet) throws DataAccessException {
+<b class="nc"><i>156</i>&nbsp;		Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>157</i>&nbsp;		params.put(&quot;id&quot;, vet.getId());</b>
+<b class="nc"><i>158</i>&nbsp;		this.namedParameterJdbcTemplate.update(&quot;DELETE FROM vet_specialties WHERE vet_id=:id&quot;, params);</b>
+<b class="nc"><i>159</i>&nbsp;		this.namedParameterJdbcTemplate.update(&quot;DELETE FROM vets WHERE id=:id&quot;, params);</b>
+<b class="nc"><i>160</i>&nbsp;	}</b>
+<i>161</i>&nbsp;	
+<i>162</i>&nbsp;	private void updateVetSpecialties(Vet vet) throws DataAccessException {
+<b class="nc"><i>163</i>&nbsp;		Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>164</i>&nbsp;		params.put(&quot;id&quot;, vet.getId());</b>
+<b class="nc"><i>165</i>&nbsp;		this.namedParameterJdbcTemplate.update(&quot;DELETE FROM vet_specialties WHERE vet_id=:id&quot;, params);</b>
+<b class="nc"><i>166</i>&nbsp;		for (Specialty spec : vet.getSpecialties()) {</b>
+<b class="nc"><i>167</i>&nbsp;			params.put(&quot;spec_id&quot;, spec.getId());</b>
+<b class="nc"><i>168</i>&nbsp;			if(!(spec.getId() == null)) {</b>
+<b class="nc"><i>169</i>&nbsp;				this.namedParameterJdbcTemplate.update(&quot;INSERT INTO vet_specialties VALUES (:id, :spec_id)&quot;, params);</b>
+<i>170</i>&nbsp;			}
+<b class="nc"><i>171</i>&nbsp;		}</b>
+<b class="nc"><i>172</i>&nbsp;	}</b>
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

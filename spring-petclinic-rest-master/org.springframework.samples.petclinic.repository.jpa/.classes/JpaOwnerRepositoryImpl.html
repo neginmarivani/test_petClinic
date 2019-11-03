@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: JpaOwnerRepositoryImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.repository.jpa</a> ]
+</div>
+
+<h1>Coverage Summary for Class: JpaOwnerRepositoryImpl (org.springframework.samples.petclinic.repository.jpa)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JpaOwnerRepositoryImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2002-2017 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;package org.springframework.samples.petclinic.repository.jpa;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.util.Collection;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import javax.persistence.EntityManager;
+<i>21</i>&nbsp;import javax.persistence.PersistenceContext;
+<i>22</i>&nbsp;import javax.persistence.Query;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import org.springframework.context.annotation.Profile;
+<i>25</i>&nbsp;import org.springframework.dao.DataAccessException;
+<i>26</i>&nbsp;import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
+<i>27</i>&nbsp;import org.springframework.samples.petclinic.model.Owner;
+<i>28</i>&nbsp;import org.springframework.samples.petclinic.repository.OwnerRepository;
+<i>29</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;/**
+<i>32</i>&nbsp; * JPA implementation of the {@link OwnerRepository} interface.
+<i>33</i>&nbsp; *
+<i>34</i>&nbsp; * @author Mike Keith
+<i>35</i>&nbsp; * @author Rod Johnson
+<i>36</i>&nbsp; * @author Sam Brannen
+<i>37</i>&nbsp; * @author Michael Isvy
+<i>38</i>&nbsp; * @author Vitaliy Fedoriv
+<i>39</i>&nbsp; */
+<i>40</i>&nbsp;@Repository
+<i>41</i>&nbsp;@Profile(&quot;jpa&quot;)
+<b class="nc"><i>42</i>&nbsp;public class JpaOwnerRepositoryImpl implements OwnerRepository {</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @PersistenceContext
+<i>45</i>&nbsp;    private EntityManager em;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Important: in the current version of this method, we load Owners with all their Pets and Visits while
+<i>50</i>&nbsp;     * we do not need Visits at all and we only need one property from the Pet objects (the &#39;name&#39; property).
+<i>51</i>&nbsp;     * There are some ways to improve it such as:
+<i>52</i>&nbsp;     * - creating a Ligtweight class (example here: https://community.jboss.org/wiki/LightweightClass)
+<i>53</i>&nbsp;     * - Turning on lazy-loading and using {@link OpenSessionInViewFilter}
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<i>56</i>&nbsp;    public Collection&lt;Owner&gt; findByLastName(String lastName) {
+<i>57</i>&nbsp;        // using &#39;join fetch&#39; because a single query should load both owners and pets
+<i>58</i>&nbsp;        // using &#39;left join fetch&#39; because it might happen that an owner does not have pets yet
+<b class="nc"><i>59</i>&nbsp;        Query query = this.em.createQuery(&quot;SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        query.setParameter(&quot;lastName&quot;, lastName + &quot;%&quot;);</b>
+<b class="nc"><i>61</i>&nbsp;        return query.getResultList();</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public Owner findById(int id) {
+<i>66</i>&nbsp;        // using &#39;join fetch&#39; because a single query should load both owners and pets
+<i>67</i>&nbsp;        // using &#39;left join fetch&#39; because it might happen that an owner does not have pets yet
+<b class="nc"><i>68</i>&nbsp;        Query query = this.em.createQuery(&quot;SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id&quot;);</b>
+<b class="nc"><i>69</i>&nbsp;        query.setParameter(&quot;id&quot;, id);</b>
+<b class="nc"><i>70</i>&nbsp;        return (Owner) query.getSingleResult();</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    @Override
+<i>75</i>&nbsp;    public void save(Owner owner) {
+<b class="nc"><i>76</i>&nbsp;        if (owner.getId() == null) {</b>
+<b class="nc"><i>77</i>&nbsp;            this.em.persist(owner);</b>
+<i>78</i>&nbsp;        } else {
+<b class="nc"><i>79</i>&nbsp;            this.em.merge(owner);</b>
+<i>80</i>&nbsp;        }
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;	@SuppressWarnings(&quot;unchecked&quot;)
+<i>85</i>&nbsp;	@Override
+<i>86</i>&nbsp;	public Collection&lt;Owner&gt; findAll() throws DataAccessException {
+<b class="nc"><i>87</i>&nbsp;		Query query = this.em.createQuery(&quot;SELECT owner FROM Owner owner&quot;);</b>
+<b class="nc"><i>88</i>&nbsp;        return query.getResultList();</b>
+<i>89</i>&nbsp;	}
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;	@Override
+<i>92</i>&nbsp;	public void delete(Owner owner) throws DataAccessException {
+<b class="nc"><i>93</i>&nbsp;		this.em.remove(this.em.contains(owner) ? owner : this.em.merge(owner));</b>
+<b class="nc"><i>94</i>&nbsp;	}</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

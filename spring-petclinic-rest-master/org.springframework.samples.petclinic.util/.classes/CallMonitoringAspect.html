@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CallMonitoringAspect</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CallMonitoringAspect (org.springframework.samples.petclinic.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CallMonitoringAspect</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2002-2013 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;package org.springframework.samples.petclinic.util;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import org.aspectj.lang.ProceedingJoinPoint;
+<i>19</i>&nbsp;import org.aspectj.lang.annotation.Around;
+<i>20</i>&nbsp;import org.aspectj.lang.annotation.Aspect;
+<i>21</i>&nbsp;import org.springframework.jmx.export.annotation.ManagedAttribute;
+<i>22</i>&nbsp;import org.springframework.jmx.export.annotation.ManagedOperation;
+<i>23</i>&nbsp;import org.springframework.jmx.export.annotation.ManagedResource;
+<i>24</i>&nbsp;import org.springframework.util.StopWatch;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;/**
+<i>27</i>&nbsp; * Simple aspect that monitors call count and call invocation time. It uses JMX annotations and therefore can be
+<i>28</i>&nbsp; * monitored using any JMX console such as the jConsole
+<i>29</i>&nbsp; * &lt;p/&gt;
+<i>30</i>&nbsp; * This is only useful if you use JPA or JDBC.  Spring-data-jpa doesn&#39;t have any correctly annotated classes to join on
+<i>31</i>&nbsp; *
+<i>32</i>&nbsp; * @author Rob Harrop
+<i>33</i>&nbsp; * @author Juergen Hoeller
+<i>34</i>&nbsp; * @author Michael Isvy
+<i>35</i>&nbsp; * @since 2.5
+<i>36</i>&nbsp; */
+<i>37</i>&nbsp;@ManagedResource(&quot;petclinic:type=CallMonitor&quot;)
+<i>38</i>&nbsp;@Aspect
+<b class="nc"><i>39</i>&nbsp;public class CallMonitoringAspect {</b>
+<i>40</i>&nbsp;
+<b class="nc"><i>41</i>&nbsp;    private boolean enabled = true;</b>
+<i>42</i>&nbsp;
+<b class="nc"><i>43</i>&nbsp;    private int callCount = 0;</b>
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;    private long accumulatedCallTime = 0;</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @ManagedAttribute
+<i>48</i>&nbsp;    public boolean isEnabled() {
+<b class="nc"><i>49</i>&nbsp;        return enabled;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    @ManagedAttribute
+<i>53</i>&nbsp;    public void setEnabled(boolean enabled) {
+<b class="nc"><i>54</i>&nbsp;        this.enabled = enabled;</b>
+<b class="nc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @ManagedOperation
+<i>58</i>&nbsp;    public void reset() {
+<b class="nc"><i>59</i>&nbsp;        this.callCount = 0;</b>
+<b class="nc"><i>60</i>&nbsp;        this.accumulatedCallTime = 0;</b>
+<b class="nc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    @ManagedAttribute
+<i>64</i>&nbsp;    public int getCallCount() {
+<b class="nc"><i>65</i>&nbsp;        return callCount;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @ManagedAttribute
+<i>69</i>&nbsp;    public long getCallTime() {
+<b class="nc"><i>70</i>&nbsp;        if (this.callCount &gt; 0)</b>
+<b class="nc"><i>71</i>&nbsp;            return this.accumulatedCallTime / this.callCount;</b>
+<i>72</i>&nbsp;        else
+<b class="nc"><i>73</i>&nbsp;            return 0;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @Around(&quot;within(@org.springframework.stereotype.Repository *)&quot;)
+<i>78</i>&nbsp;    public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable {
+<b class="nc"><i>79</i>&nbsp;        if (this.enabled) {</b>
+<b class="nc"><i>80</i>&nbsp;            StopWatch sw = new StopWatch(joinPoint.toShortString());</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;            sw.start(&quot;invoke&quot;);</b>
+<i>83</i>&nbsp;            try {
+<b class="nc"><i>84</i>&nbsp;                return joinPoint.proceed();</b>
+<i>85</i>&nbsp;            } finally {
+<b class="nc"><i>86</i>&nbsp;                sw.stop();</b>
+<b class="nc"><i>87</i>&nbsp;                synchronized (this) {</b>
+<b class="nc"><i>88</i>&nbsp;                    this.callCount++;</b>
+<b class="nc"><i>89</i>&nbsp;                    this.accumulatedCallTime += sw.getTotalTimeMillis();</b>
+<b class="nc"><i>90</i>&nbsp;                }</b>
+<i>91</i>&nbsp;            }
+<i>92</i>&nbsp;        } else {
+<b class="nc"><i>93</i>&nbsp;            return joinPoint.proceed();</b>
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

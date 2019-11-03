@@ -1,0 +1,357 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: OwnerRestControllerTests</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.rest</a> ]
+</div>
+
+<h1>Coverage Summary for Class: OwnerRestControllerTests (org.springframework.samples.petclinic.rest)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OwnerRestControllerTests</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 144)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2016-2017 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;package org.springframework.samples.petclinic.rest;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import static org.mockito.BDDMockito.given;
+<i>20</i>&nbsp;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+<i>21</i>&nbsp;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+<i>22</i>&nbsp;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+<i>23</i>&nbsp;import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+<i>24</i>&nbsp;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+<i>25</i>&nbsp;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+<i>26</i>&nbsp;import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.util.ArrayList;
+<i>29</i>&nbsp;import java.util.List;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;import org.junit.Before;
+<i>32</i>&nbsp;import org.junit.Test;
+<i>33</i>&nbsp;import org.junit.runner.RunWith;
+<i>34</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>35</i>&nbsp;import org.springframework.boot.test.context.SpringBootTest;
+<i>36</i>&nbsp;import org.springframework.boot.test.mock.mockito.MockBean;
+<i>37</i>&nbsp;import org.springframework.http.MediaType;
+<i>38</i>&nbsp;import org.springframework.samples.petclinic.model.Owner;
+<i>39</i>&nbsp;import org.springframework.samples.petclinic.service.clinicService.ApplicationTestConfig;
+<i>40</i>&nbsp;import org.springframework.samples.petclinic.service.ClinicService;
+<i>41</i>&nbsp;import org.springframework.security.test.context.support.WithMockUser;
+<i>42</i>&nbsp;import org.springframework.test.context.ContextConfiguration;
+<i>43</i>&nbsp;import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+<i>44</i>&nbsp;import org.springframework.test.context.web.WebAppConfiguration;
+<i>45</i>&nbsp;import org.springframework.test.web.servlet.MockMvc;
+<i>46</i>&nbsp;import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;/**
+<i>52</i>&nbsp; * Test class for {@link OwnerRestController}
+<i>53</i>&nbsp; *
+<i>54</i>&nbsp; * @author Vitaliy Fedoriv
+<i>55</i>&nbsp; */
+<i>56</i>&nbsp;@SpringBootTest
+<i>57</i>&nbsp;@RunWith(SpringJUnit4ClassRunner.class)
+<i>58</i>&nbsp;@ContextConfiguration(classes=ApplicationTestConfig.class)
+<i>59</i>&nbsp;@WebAppConfiguration
+<b class="nc"><i>60</i>&nbsp;public class OwnerRestControllerTests {</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    @Autowired
+<i>63</i>&nbsp;    private OwnerRestController ownerRestController;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @MockBean
+<i>66</i>&nbsp;    private ClinicService clinicService;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    private MockMvc mockMvc;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    private List&lt;Owner&gt; owners;
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Before
+<i>73</i>&nbsp;    public void initOwners(){
+<b class="nc"><i>74</i>&nbsp;    	this.mockMvc = MockMvcBuilders.standaloneSetup(ownerRestController)</b>
+<b class="nc"><i>75</i>&nbsp;    			.setControllerAdvice(new ExceptionControllerAdvice())</b>
+<b class="nc"><i>76</i>&nbsp;    			.build();</b>
+<b class="nc"><i>77</i>&nbsp;    	owners = new ArrayList&lt;Owner&gt;();</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;    	Owner owner = new Owner();</b>
+<b class="nc"><i>80</i>&nbsp;    	owner.setId(1);</b>
+<b class="nc"><i>81</i>&nbsp;    	owner.setFirstName(&quot;George&quot;);</b>
+<b class="nc"><i>82</i>&nbsp;    	owner.setLastName(&quot;Franklin&quot;);</b>
+<b class="nc"><i>83</i>&nbsp;    	owner.setAddress(&quot;110 W. Liberty St.&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;    	owner.setCity(&quot;Madison&quot;);</b>
+<b class="nc"><i>85</i>&nbsp;    	owner.setTelephone(&quot;6085551023&quot;);</b>
+<b class="nc"><i>86</i>&nbsp;    	owners.add(owner);</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;    	owner = new Owner();</b>
+<b class="nc"><i>89</i>&nbsp;    	owner.setId(2);</b>
+<b class="nc"><i>90</i>&nbsp;    	owner.setFirstName(&quot;Betty&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;    	owner.setLastName(&quot;Davis&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;    	owner.setAddress(&quot;638 Cardinal Ave.&quot;);</b>
+<b class="nc"><i>93</i>&nbsp;    	owner.setCity(&quot;Sun Prairie&quot;);</b>
+<b class="nc"><i>94</i>&nbsp;    	owner.setTelephone(&quot;6085551749&quot;);</b>
+<b class="nc"><i>95</i>&nbsp;    	owners.add(owner);</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;    	owner = new Owner();</b>
+<b class="nc"><i>98</i>&nbsp;    	owner.setId(3);</b>
+<b class="nc"><i>99</i>&nbsp;    	owner.setFirstName(&quot;Eduardo&quot;);</b>
+<b class="nc"><i>100</i>&nbsp;    	owner.setLastName(&quot;Rodriquez&quot;);</b>
+<b class="nc"><i>101</i>&nbsp;    	owner.setAddress(&quot;2693 Commerce St.&quot;);</b>
+<b class="nc"><i>102</i>&nbsp;    	owner.setCity(&quot;McFarland&quot;);</b>
+<b class="nc"><i>103</i>&nbsp;    	owner.setTelephone(&quot;6085558763&quot;);</b>
+<b class="nc"><i>104</i>&nbsp;    	owners.add(owner);</b>
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;    	owner = new Owner();</b>
+<b class="nc"><i>107</i>&nbsp;    	owner.setId(4);</b>
+<b class="nc"><i>108</i>&nbsp;    	owner.setFirstName(&quot;Harold&quot;);</b>
+<b class="nc"><i>109</i>&nbsp;    	owner.setLastName(&quot;Davis&quot;);</b>
+<b class="nc"><i>110</i>&nbsp;    	owner.setAddress(&quot;563 Friendly St.&quot;);</b>
+<b class="nc"><i>111</i>&nbsp;    	owner.setCity(&quot;Windsor&quot;);</b>
+<b class="nc"><i>112</i>&nbsp;    	owner.setTelephone(&quot;6085553198&quot;);</b>
+<b class="nc"><i>113</i>&nbsp;    	owners.add(owner);</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    @Test
+<i>119</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>120</i>&nbsp;    public void testGetOwnerSuccess() throws Exception {
+<b class="nc"><i>121</i>&nbsp;    	given(this.clinicService.findOwnerById(1)).willReturn(owners.get(0));</b>
+<b class="nc"><i>122</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/1&quot;)</b>
+<b class="nc"><i>123</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>124</i>&nbsp;            .andExpect(status().isOk())</b>
+<b class="nc"><i>125</i>&nbsp;            .andExpect(content().contentType(&quot;application/json;charset=UTF-8&quot;))</b>
+<b class="nc"><i>126</i>&nbsp;            .andExpect(jsonPath(&quot;$.id&quot;).value(1))</b>
+<b class="nc"><i>127</i>&nbsp;            .andExpect(jsonPath(&quot;$.firstName&quot;).value(&quot;George&quot;));</b>
+<b class="nc"><i>128</i>&nbsp;    }</b>
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    @Test
+<i>131</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>132</i>&nbsp;    public void testGetOwnerNotFound() throws Exception {
+<b class="nc"><i>133</i>&nbsp;    	given(this.clinicService.findOwnerById(-1)).willReturn(null);</b>
+<b class="nc"><i>134</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/-1&quot;)</b>
+<b class="nc"><i>135</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON))</b>
+<b class="nc"><i>136</i>&nbsp;            .andExpect(status().isNotFound());</b>
+<b class="nc"><i>137</i>&nbsp;    }</b>
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    @Test
+<i>140</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>141</i>&nbsp;    public void testGetOwnersListSuccess() throws Exception {
+<b class="nc"><i>142</i>&nbsp;    	owners.remove(0);</b>
+<b class="nc"><i>143</i>&nbsp;    	owners.remove(1);</b>
+<b class="nc"><i>144</i>&nbsp;    	given(this.clinicService.findOwnerByLastName(&quot;Davis&quot;)).willReturn(owners);</b>
+<b class="nc"><i>145</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/*/lastname/Davis&quot;)</b>
+<b class="nc"><i>146</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON))</b>
+<b class="nc"><i>147</i>&nbsp;            .andExpect(status().isOk())</b>
+<b class="nc"><i>148</i>&nbsp;            .andExpect(content().contentType(&quot;application/json;charset=UTF-8&quot;))</b>
+<b class="nc"><i>149</i>&nbsp;            .andExpect(jsonPath(&quot;$.[0].id&quot;).value(2))</b>
+<b class="nc"><i>150</i>&nbsp;            .andExpect(jsonPath(&quot;$.[0].firstName&quot;).value(&quot;Betty&quot;))</b>
+<b class="nc"><i>151</i>&nbsp;            .andExpect(jsonPath(&quot;$.[1].id&quot;).value(4))</b>
+<b class="nc"><i>152</i>&nbsp;            .andExpect(jsonPath(&quot;$.[1].firstName&quot;).value(&quot;Harold&quot;));</b>
+<b class="nc"><i>153</i>&nbsp;    }</b>
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;    @Test
+<i>156</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>157</i>&nbsp;    public void testGetOwnersListNotFound() throws Exception {
+<b class="nc"><i>158</i>&nbsp;    	owners.clear();</b>
+<b class="nc"><i>159</i>&nbsp;    	given(this.clinicService.findOwnerByLastName(&quot;0&quot;)).willReturn(owners);</b>
+<b class="nc"><i>160</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/?lastName=0&quot;)</b>
+<b class="nc"><i>161</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON))</b>
+<b class="nc"><i>162</i>&nbsp;            .andExpect(status().isNotFound());</b>
+<b class="nc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    @Test
+<i>166</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>167</i>&nbsp;    public void testGetAllOwnersSuccess() throws Exception {
+<b class="nc"><i>168</i>&nbsp;    	owners.remove(0);</b>
+<b class="nc"><i>169</i>&nbsp;    	owners.remove(1);</b>
+<b class="nc"><i>170</i>&nbsp;    	given(this.clinicService.findAllOwners()).willReturn(owners);</b>
+<b class="nc"><i>171</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/&quot;)</b>
+<b class="nc"><i>172</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON))</b>
+<b class="nc"><i>173</i>&nbsp;            .andExpect(status().isOk())</b>
+<b class="nc"><i>174</i>&nbsp;            .andExpect(content().contentType(&quot;application/json;charset=UTF-8&quot;))</b>
+<b class="nc"><i>175</i>&nbsp;            .andExpect(jsonPath(&quot;$.[0].id&quot;).value(2))</b>
+<b class="nc"><i>176</i>&nbsp;            .andExpect(jsonPath(&quot;$.[0].firstName&quot;).value(&quot;Betty&quot;))</b>
+<b class="nc"><i>177</i>&nbsp;            .andExpect(jsonPath(&quot;$.[1].id&quot;).value(4))</b>
+<b class="nc"><i>178</i>&nbsp;            .andExpect(jsonPath(&quot;$.[1].firstName&quot;).value(&quot;Harold&quot;));</b>
+<b class="nc"><i>179</i>&nbsp;    }</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;    @Test
+<i>182</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>183</i>&nbsp;    public void testGetAllOwnersNotFound() throws Exception {
+<b class="nc"><i>184</i>&nbsp;    	owners.clear();</b>
+<b class="nc"><i>185</i>&nbsp;    	given(this.clinicService.findAllOwners()).willReturn(owners);</b>
+<b class="nc"><i>186</i>&nbsp;        this.mockMvc.perform(get(&quot;/api/owners/&quot;)</b>
+<b class="nc"><i>187</i>&nbsp;        	.accept(MediaType.APPLICATION_JSON))</b>
+<b class="nc"><i>188</i>&nbsp;            .andExpect(status().isNotFound());</b>
+<b class="nc"><i>189</i>&nbsp;    }</b>
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    @Test
+<i>192</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>193</i>&nbsp;    public void testCreateOwnerSuccess() throws Exception {
+<b class="nc"><i>194</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>195</i>&nbsp;    	newOwner.setId(999);</b>
+<b class="nc"><i>196</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>197</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>198</i>&nbsp;    	this.mockMvc.perform(post(&quot;/api/owners/&quot;)</b>
+<b class="nc"><i>199</i>&nbsp;    		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>200</i>&nbsp;    		.andExpect(status().isCreated());</b>
+<b class="nc"><i>201</i>&nbsp;    }</b>
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    @Test
+<i>204</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>205</i>&nbsp;    public void testCreateOwnerError() throws Exception {
+<b class="nc"><i>206</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>207</i>&nbsp;    	newOwner.setId(null);</b>
+<b class="nc"><i>208</i>&nbsp;    	newOwner.setFirstName(null);</b>
+<b class="nc"><i>209</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>210</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>211</i>&nbsp;    	this.mockMvc.perform(post(&quot;/api/owners/&quot;)</b>
+<b class="nc"><i>212</i>&nbsp;        		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>213</i>&nbsp;        		.andExpect(status().isBadRequest());</b>
+<b class="nc"><i>214</i>&nbsp;     }</b>
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    @Test
+<i>217</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>218</i>&nbsp;    public void testUpdateOwnerSuccess() throws Exception {
+<b class="nc"><i>219</i>&nbsp;    	given(this.clinicService.findOwnerById(1)).willReturn(owners.get(0));</b>
+<b class="nc"><i>220</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>221</i>&nbsp;    	newOwner.setFirstName(&quot;George I&quot;);</b>
+<b class="nc"><i>222</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>223</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>224</i>&nbsp;    	this.mockMvc.perform(put(&quot;/api/owners/1&quot;)</b>
+<b class="nc"><i>225</i>&nbsp;    		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>226</i>&nbsp;        	.andExpect(content().contentType(&quot;application/json;charset=UTF-8&quot;))</b>
+<b class="nc"><i>227</i>&nbsp;        	.andExpect(status().isNoContent());</b>
+<i>228</i>&nbsp;
+<b class="nc"><i>229</i>&nbsp;    	this.mockMvc.perform(get(&quot;/api/owners/1&quot;)</b>
+<b class="nc"><i>230</i>&nbsp;           	.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>231</i>&nbsp;            .andExpect(status().isOk())</b>
+<b class="nc"><i>232</i>&nbsp;            .andExpect(content().contentType(&quot;application/json;charset=UTF-8&quot;))</b>
+<b class="nc"><i>233</i>&nbsp;            .andExpect(jsonPath(&quot;$.id&quot;).value(1))</b>
+<b class="nc"><i>234</i>&nbsp;            .andExpect(jsonPath(&quot;$.firstName&quot;).value(&quot;George I&quot;));</b>
+<i>235</i>&nbsp;
+<b class="nc"><i>236</i>&nbsp;    }</b>
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;    @Test
+<i>239</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>240</i>&nbsp;    public void testUpdateOwnerError() throws Exception {
+<b class="nc"><i>241</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>242</i>&nbsp;    	newOwner.setFirstName(&quot;&quot;);</b>
+<b class="nc"><i>243</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>244</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>245</i>&nbsp;    	this.mockMvc.perform(put(&quot;/api/owners/1&quot;)</b>
+<b class="nc"><i>246</i>&nbsp;    		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>247</i>&nbsp;        	.andExpect(status().isBadRequest());</b>
+<b class="nc"><i>248</i>&nbsp;     }</b>
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    @Test
+<i>251</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>252</i>&nbsp;    public void testDeleteOwnerSuccess() throws Exception {
+<b class="nc"><i>253</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>254</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>255</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>256</i>&nbsp;    	given(this.clinicService.findOwnerById(1)).willReturn(owners.get(0));</b>
+<b class="nc"><i>257</i>&nbsp;    	this.mockMvc.perform(delete(&quot;/api/owners/1&quot;)</b>
+<b class="nc"><i>258</i>&nbsp;    		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>259</i>&nbsp;        	.andExpect(status().isNoContent());</b>
+<b class="nc"><i>260</i>&nbsp;    }</b>
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    @Test
+<i>263</i>&nbsp;    @WithMockUser(roles=&quot;OWNER_ADMIN&quot;)
+<i>264</i>&nbsp;    public void testDeleteOwnerError() throws Exception {
+<b class="nc"><i>265</i>&nbsp;    	Owner newOwner = owners.get(0);</b>
+<b class="nc"><i>266</i>&nbsp;    	ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc"><i>267</i>&nbsp;    	String newOwnerAsJSON = mapper.writeValueAsString(newOwner);</b>
+<b class="nc"><i>268</i>&nbsp;    	given(this.clinicService.findOwnerById(-1)).willReturn(null);</b>
+<b class="nc"><i>269</i>&nbsp;    	this.mockMvc.perform(delete(&quot;/api/owners/-1&quot;)</b>
+<b class="nc"><i>270</i>&nbsp;    		.content(newOwnerAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))</b>
+<b class="nc"><i>271</i>&nbsp;        	.andExpect(status().isNotFound());</b>
+<b class="nc"><i>272</i>&nbsp;    }</b>
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>

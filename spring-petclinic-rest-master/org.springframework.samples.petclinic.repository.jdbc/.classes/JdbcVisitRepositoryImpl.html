@@ -1,0 +1,292 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: JdbcVisitRepositoryImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.springframework.samples.petclinic.repository.jdbc</a> ]
+</div>
+
+<h1>Coverage Summary for Class: JdbcVisitRepositoryImpl (org.springframework.samples.petclinic.repository.jdbc)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JdbcVisitRepositoryImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 39)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">JdbcVisitRepositoryImpl$JdbcVisitRowMapperExt</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 61)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/*
+<i>2</i>&nbsp; * Copyright 2002-2017 the original author or authors.
+<i>3</i>&nbsp; *
+<i>4</i>&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+<i>5</i>&nbsp; * you may not use this file except in compliance with the License.
+<i>6</i>&nbsp; * You may obtain a copy of the License at
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; *      http://www.apache.org/licenses/LICENSE-2.0
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * Unless required by applicable law or agreed to in writing, software
+<i>11</i>&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+<i>12</i>&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+<i>13</i>&nbsp; * See the License for the specific language governing permissions and
+<i>14</i>&nbsp; * limitations under the License.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;package org.springframework.samples.petclinic.repository.jdbc;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>19</i>&nbsp;import org.springframework.context.annotation.Profile;
+<i>20</i>&nbsp;import org.springframework.dao.DataAccessException;
+<i>21</i>&nbsp;import org.springframework.dao.EmptyResultDataAccessException;
+<i>22</i>&nbsp;import org.springframework.jdbc.core.BeanPropertyRowMapper;
+<i>23</i>&nbsp;import org.springframework.jdbc.core.RowMapper;
+<i>24</i>&nbsp;import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+<i>25</i>&nbsp;import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+<i>26</i>&nbsp;import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+<i>27</i>&nbsp;import org.springframework.orm.ObjectRetrievalFailureException;
+<i>28</i>&nbsp;import org.springframework.samples.petclinic.model.Owner;
+<i>29</i>&nbsp;import org.springframework.samples.petclinic.model.PetType;
+<i>30</i>&nbsp;import org.springframework.samples.petclinic.model.Visit;
+<i>31</i>&nbsp;import org.springframework.samples.petclinic.repository.VisitRepository;
+<i>32</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;import javax.sql.DataSource;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;import java.sql.ResultSet;
+<i>37</i>&nbsp;import java.sql.SQLException;
+<i>38</i>&nbsp;import java.util.Collection;
+<i>39</i>&nbsp;import java.util.Date;
+<i>40</i>&nbsp;import java.util.HashMap;
+<i>41</i>&nbsp;import java.util.List;
+<i>42</i>&nbsp;import java.util.Map;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;/**
+<i>45</i>&nbsp; * A simple JDBC-based implementation of the {@link VisitRepository} interface.
+<i>46</i>&nbsp; *
+<i>47</i>&nbsp; * @author Ken Krebs
+<i>48</i>&nbsp; * @author Juergen Hoeller
+<i>49</i>&nbsp; * @author Rob Harrop
+<i>50</i>&nbsp; * @author Sam Brannen
+<i>51</i>&nbsp; * @author Thomas Risberg
+<i>52</i>&nbsp; * @author Mark Fisher
+<i>53</i>&nbsp; * @author Michael Isvy
+<i>54</i>&nbsp; * @author Vitaliy Fedoriv
+<i>55</i>&nbsp; */
+<i>56</i>&nbsp;@Repository
+<i>57</i>&nbsp;@Profile(&quot;jdbc&quot;)
+<i>58</i>&nbsp;public class JdbcVisitRepositoryImpl implements VisitRepository {
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    protected SimpleJdbcInsert insertVisit;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Autowired
+<b class="nc"><i>65</i>&nbsp;    public JdbcVisitRepositoryImpl(DataSource dataSource) {</b>
+<b class="nc"><i>66</i>&nbsp;        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        this.insertVisit = new SimpleJdbcInsert(dataSource)</b>
+<b class="nc"><i>69</i>&nbsp;            .withTableName(&quot;visits&quot;)</b>
+<b class="nc"><i>70</i>&nbsp;            .usingGeneratedKeyColumns(&quot;id&quot;);</b>
+<b class="nc"><i>71</i>&nbsp;    }</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Creates a {@link MapSqlParameterSource} based on data values from the supplied {@link Visit} instance.
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    protected MapSqlParameterSource createVisitParameterSource(Visit visit) {
+<b class="nc"><i>78</i>&nbsp;        return new MapSqlParameterSource()</b>
+<b class="nc"><i>79</i>&nbsp;            .addValue(&quot;id&quot;, visit.getId())</b>
+<b class="nc"><i>80</i>&nbsp;            .addValue(&quot;visit_date&quot;, visit.getDate())</b>
+<b class="nc"><i>81</i>&nbsp;            .addValue(&quot;description&quot;, visit.getDescription())</b>
+<b class="nc"><i>82</i>&nbsp;            .addValue(&quot;pet_id&quot;, visit.getPet().getId());</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @Override
+<i>86</i>&nbsp;    public List&lt;Visit&gt; findByPetId(Integer petId) {
+<b class="nc"><i>87</i>&nbsp;        Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>88</i>&nbsp;        params.put(&quot;id&quot;, petId);</b>
+<b class="nc"><i>89</i>&nbsp;        JdbcPet pet = this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>90</i>&nbsp;                &quot;SELECT id as pets_id, name, birth_date, type_id, owner_id FROM pets WHERE id=:id&quot;,
+<i>91</i>&nbsp;                params,
+<i>92</i>&nbsp;                new JdbcPetRowMapper());
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        List&lt;Visit&gt; visits = this.namedParameterJdbcTemplate.query(</b>
+<i>95</i>&nbsp;            &quot;SELECT id as visit_id, visit_date, description FROM visits WHERE pet_id=:id&quot;,
+<i>96</i>&nbsp;            params, new JdbcVisitRowMapper());
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        for (Visit visit: visits) {</b>
+<b class="nc"><i>99</i>&nbsp;            visit.setPet(pet);</b>
+<b class="nc"><i>100</i>&nbsp;        }</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        return visits;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;    
+<i>105</i>&nbsp;	@Override
+<i>106</i>&nbsp;	public Visit findById(int id) throws DataAccessException {
+<i>107</i>&nbsp;		Visit visit;
+<i>108</i>&nbsp;		try {
+<b class="nc"><i>109</i>&nbsp;			Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>110</i>&nbsp;			params.put(&quot;id&quot;, id);</b>
+<b class="nc"><i>111</i>&nbsp;			visit = this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>112</i>&nbsp;					&quot;SELECT id as visit_id, visits.pet_id as pets_id, visit_date, description FROM visits WHERE id= :id&quot;,
+<i>113</i>&nbsp;					params,
+<i>114</i>&nbsp;					new JdbcVisitRowMapperExt());
+<b class="nc"><i>115</i>&nbsp;		} catch (EmptyResultDataAccessException ex) {</b>
+<b class="nc"><i>116</i>&nbsp;			throw new ObjectRetrievalFailureException(Visit.class, id);</b>
+<b class="nc"><i>117</i>&nbsp;		}</b>
+<b class="nc"><i>118</i>&nbsp;		return visit;</b>
+<i>119</i>&nbsp;	}
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;	@Override
+<i>122</i>&nbsp;	public Collection&lt;Visit&gt; findAll() throws DataAccessException {
+<b class="nc"><i>123</i>&nbsp;		Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>124</i>&nbsp;		return this.namedParameterJdbcTemplate.query(</b>
+<i>125</i>&nbsp;				&quot;SELECT id as visit_id, pets.id as pets_id, visit_date, description FROM visits LEFT JOIN pets ON visits.pet_id = pets.id&quot;,
+<i>126</i>&nbsp;				params, new JdbcVisitRowMapperExt());
+<i>127</i>&nbsp;	}
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;	@Override
+<i>130</i>&nbsp;	public void save(Visit visit) throws DataAccessException {
+<b class="nc"><i>131</i>&nbsp;		if (visit.isNew()) {</b>
+<b class="nc"><i>132</i>&nbsp;			Number newKey = this.insertVisit.executeAndReturnKey(createVisitParameterSource(visit));</b>
+<b class="nc"><i>133</i>&nbsp;			visit.setId(newKey.intValue());</b>
+<b class="nc"><i>134</i>&nbsp;		} else {</b>
+<b class="nc"><i>135</i>&nbsp;			this.namedParameterJdbcTemplate.update(</b>
+<i>136</i>&nbsp;					&quot;UPDATE visits SET visit_date=:visit_date, description=:description, pet_id=:pet_id WHERE id=:id &quot;,
+<b class="nc"><i>137</i>&nbsp;					createVisitParameterSource(visit));</b>
+<i>138</i>&nbsp;		}
+<b class="nc"><i>139</i>&nbsp;	}</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;	@Override
+<i>142</i>&nbsp;	public void delete(Visit visit) throws DataAccessException {
+<b class="nc"><i>143</i>&nbsp;		Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>144</i>&nbsp;		params.put(&quot;id&quot;, visit.getId());</b>
+<b class="nc"><i>145</i>&nbsp;		this.namedParameterJdbcTemplate.update(&quot;DELETE FROM visits WHERE id=:id&quot;, params);</b>
+<b class="nc"><i>146</i>&nbsp;	}</b>
+<i>147</i>&nbsp;
+<b class="nc"><i>148</i>&nbsp;	protected class JdbcVisitRowMapperExt implements RowMapper&lt;Visit&gt; {</b>
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;		@Override
+<i>151</i>&nbsp;		public Visit mapRow(ResultSet rs, int rowNum) throws SQLException {
+<b class="nc"><i>152</i>&nbsp;			Visit visit = new Visit();</b>
+<b class="nc"><i>153</i>&nbsp;			JdbcPet pet = new JdbcPet();</b>
+<b class="nc"><i>154</i>&nbsp;			PetType petType = new PetType();</b>
+<b class="nc"><i>155</i>&nbsp;			Owner owner = new Owner();</b>
+<b class="nc"><i>156</i>&nbsp;			visit.setId(rs.getInt(&quot;visit_id&quot;));</b>
+<b class="nc"><i>157</i>&nbsp;			Date visitDate = rs.getDate(&quot;visit_date&quot;);</b>
+<b class="nc"><i>158</i>&nbsp;			visit.setDate(new Date(visitDate.getTime()));</b>
+<b class="nc"><i>159</i>&nbsp;			visit.setDescription(rs.getString(&quot;description&quot;));</b>
+<b class="nc"><i>160</i>&nbsp;			Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>161</i>&nbsp;			params.put(&quot;id&quot;, rs.getInt(&quot;pets_id&quot;));</b>
+<b class="nc"><i>162</i>&nbsp;			pet = JdbcVisitRepositoryImpl.this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>163</i>&nbsp;					&quot;SELECT pets.id as pets_id, name, birth_date, type_id, owner_id FROM pets WHERE pets.id=:id&quot;,
+<i>164</i>&nbsp;					params,
+<i>165</i>&nbsp;					new JdbcPetRowMapper());
+<b class="nc"><i>166</i>&nbsp;			params.put(&quot;type_id&quot;, pet.getTypeId());</b>
+<b class="nc"><i>167</i>&nbsp;			petType = JdbcVisitRepositoryImpl.this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>168</i>&nbsp;					&quot;SELECT id, name FROM types WHERE id= :type_id&quot;,
+<i>169</i>&nbsp;					params,
+<b class="nc"><i>170</i>&nbsp;					BeanPropertyRowMapper.newInstance(PetType.class));</b>
+<b class="nc"><i>171</i>&nbsp;			pet.setType(petType);</b>
+<b class="nc"><i>172</i>&nbsp;			params.put(&quot;owner_id&quot;, pet.getOwnerId());</b>
+<b class="nc"><i>173</i>&nbsp;			owner = JdbcVisitRepositoryImpl.this.namedParameterJdbcTemplate.queryForObject(</b>
+<i>174</i>&nbsp;					&quot;SELECT id, first_name, last_name, address, city, telephone FROM owners WHERE id= :owner_id&quot;,
+<i>175</i>&nbsp;					params,
+<b class="nc"><i>176</i>&nbsp;					BeanPropertyRowMapper.newInstance(Owner.class));</b>
+<b class="nc"><i>177</i>&nbsp;			pet.setOwner(owner);</b>
+<b class="nc"><i>178</i>&nbsp;			visit.setPet(pet);</b>
+<b class="nc"><i>179</i>&nbsp;			return visit;</b>
+<i>180</i>&nbsp;		}
+<i>181</i>&nbsp;	}
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-11-03 15:36</div>
+</div>
+</body>
+</html>
