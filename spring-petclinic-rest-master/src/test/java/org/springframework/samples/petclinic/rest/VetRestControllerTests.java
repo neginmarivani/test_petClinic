@@ -186,6 +186,24 @@ public class VetRestControllerTests {
             .andExpect(jsonPath("$.firstName").value("James"));
 
     }
+    @Test
+    @WithMockUser(roles="VET_ADMIN")
+    public void testUpdateVetErrorthird() throws Exception {
+        Vet newVet = vets.get(1);
+        given(this.clinicService.findVetById(1)).willReturn(null);
+        newVet.setFirstName("oskol");
+        ObjectMapper mapper = new ObjectMapper();
+        String newVetAsJSON = mapper.writeValueAsString(newVet);
+        this.mockMvc.perform(put("/api/vets/1")
+            .content(newVetAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isNotFound());
+    }
+    @Test
+    @WithMockUser(roles="VET_ADMIN")
+    public void testUpdateVetErrorSecond() throws Exception {
+
+        this.mockMvc.perform(put("/api/vets/5"));
+    }
 
     @Test
     @WithMockUser(roles="VET_ADMIN")

@@ -39,18 +39,18 @@
   <td class="name">BindingErrorsResponse</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    57.1%
   </span>
   <span class="absValue">
-    (0/ 7)
+    (4/ 7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    76%
   </span>
   <span class="absValue">
-    (0/ 25)
+    (19/ 25)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">BindingErrorsResponse$BindingError</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    50%
   </span>
   <span class="absValue">
-    (0/ 10)
+    (5/ 10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    73.7%
   </span>
   <span class="absValue">
-    (0/ 19)
+    (14/ 19)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    52.9%
   </span>
   <span class="absValue">
-    (0/ 17)
+    (9/ 17)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    75%
   </span>
   <span class="absValue">
-    (0/ 44)
+    (33/ 44)
   </span>
 </td>
 </tr>
@@ -132,9 +132,9 @@
 <i>32</i>&nbsp; *
 <i>33</i>&nbsp; */
 <i>34</i>&nbsp;
-<b class="nc"><i>35</i>&nbsp;public class BindingErrorsResponse {</b>
+<b class="fc"><i>35</i>&nbsp;public class BindingErrorsResponse {</b>
 <i>36</i>&nbsp;
-<b class="nc"><i>37</i>&nbsp;	private List&lt;BindingError&gt; bindingErrors = new ArrayList&lt;BindingError&gt;();</b>
+<b class="fc"><i>37</i>&nbsp;	private List&lt;BindingError&gt; bindingErrors = new ArrayList&lt;BindingError&gt;();</b>
 <i>38</i>&nbsp;
 <i>39</i>&nbsp;	public List&lt;BindingError&gt; getBindingErrors() {
 <b class="nc"><i>40</i>&nbsp;		return bindingErrors;</b>
@@ -145,30 +145,30 @@
 <b class="nc"><i>45</i>&nbsp;	}</b>
 <i>46</i>&nbsp;
 <i>47</i>&nbsp;	public void addError(BindingError bindingError) {
-<b class="nc"><i>48</i>&nbsp;		this.bindingErrors.add(bindingError);</b>
-<b class="nc"><i>49</i>&nbsp;	}</b>
+<b class="fc"><i>48</i>&nbsp;		this.bindingErrors.add(bindingError);</b>
+<b class="fc"><i>49</i>&nbsp;	}</b>
 <i>50</i>&nbsp;
 <i>51</i>&nbsp;	public void addAllErrors(BindingResult bindingResult) {
-<b class="nc"><i>52</i>&nbsp;		for (FieldError fieldError : bindingResult.getFieldErrors()) {</b>
-<b class="nc"><i>53</i>&nbsp;			BindingError error = new BindingError();</b>
-<b class="nc"><i>54</i>&nbsp;			error.setObjectName(fieldError.getObjectName());</b>
-<b class="nc"><i>55</i>&nbsp;			error.setFieldName(fieldError.getField());</b>
-<b class="nc"><i>56</i>&nbsp;			error.setFieldValue(fieldError.getRejectedValue().toString());</b>
-<b class="nc"><i>57</i>&nbsp;			error.setErrorMessage(fieldError.getDefaultMessage());</b>
-<b class="nc"><i>58</i>&nbsp;			addError(error);</b>
-<b class="nc"><i>59</i>&nbsp;		}</b>
-<b class="nc"><i>60</i>&nbsp;	}</b>
+<b class="fc"><i>52</i>&nbsp;		for (FieldError fieldError : bindingResult.getFieldErrors()) {</b>
+<b class="fc"><i>53</i>&nbsp;			BindingError error = new BindingError();</b>
+<b class="fc"><i>54</i>&nbsp;			error.setObjectName(fieldError.getObjectName());</b>
+<b class="fc"><i>55</i>&nbsp;			error.setFieldName(fieldError.getField());</b>
+<b class="fc"><i>56</i>&nbsp;			error.setFieldValue(fieldError.getRejectedValue().toString());</b>
+<b class="fc"><i>57</i>&nbsp;			error.setErrorMessage(fieldError.getDefaultMessage());</b>
+<b class="fc"><i>58</i>&nbsp;			addError(error);</b>
+<b class="fc"><i>59</i>&nbsp;		}</b>
+<b class="fc"><i>60</i>&nbsp;	}</b>
 <i>61</i>&nbsp;
 <i>62</i>&nbsp;	public String toJSON() {
-<b class="nc"><i>63</i>&nbsp;		ObjectMapper mapper = new ObjectMapper();</b>
-<b class="nc"><i>64</i>&nbsp;		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);</b>
-<b class="nc"><i>65</i>&nbsp;		String errorsAsJSON = &quot;&quot;;</b>
+<b class="fc"><i>63</i>&nbsp;		ObjectMapper mapper = new ObjectMapper();</b>
+<b class="fc"><i>64</i>&nbsp;		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);</b>
+<b class="fc"><i>65</i>&nbsp;		String errorsAsJSON = &quot;&quot;;</b>
 <i>66</i>&nbsp;		try {
-<b class="nc"><i>67</i>&nbsp;			errorsAsJSON = mapper.writeValueAsString(bindingErrors);</b>
+<b class="fc"><i>67</i>&nbsp;			errorsAsJSON = mapper.writeValueAsString(bindingErrors);</b>
 <b class="nc"><i>68</i>&nbsp;		} catch (JsonProcessingException e) {</b>
 <b class="nc"><i>69</i>&nbsp;			e.printStackTrace();</b>
-<b class="nc"><i>70</i>&nbsp;		}</b>
-<b class="nc"><i>71</i>&nbsp;		return errorsAsJSON;</b>
+<b class="fc"><i>70</i>&nbsp;		}</b>
+<b class="fc"><i>71</i>&nbsp;		return errorsAsJSON;</b>
 <i>72</i>&nbsp;	}
 <i>73</i>&nbsp;
 <i>74</i>&nbsp;	@Override
@@ -183,44 +183,44 @@
 <i>83</i>&nbsp;		private String fieldValue;
 <i>84</i>&nbsp;		private String errorMessage;
 <i>85</i>&nbsp;
-<b class="nc"><i>86</i>&nbsp;		public BindingError() {</b>
-<b class="nc"><i>87</i>&nbsp;			this.objectName = &quot;&quot;;</b>
-<b class="nc"><i>88</i>&nbsp;			this.fieldName = &quot;&quot;;</b>
-<b class="nc"><i>89</i>&nbsp;			this.fieldValue = &quot;&quot;;</b>
-<b class="nc"><i>90</i>&nbsp;			this.errorMessage = &quot;&quot;;</b>
-<b class="nc"><i>91</i>&nbsp;		}</b>
+<b class="fc"><i>86</i>&nbsp;		public BindingError() {</b>
+<b class="fc"><i>87</i>&nbsp;			this.objectName = &quot;&quot;;</b>
+<b class="fc"><i>88</i>&nbsp;			this.fieldName = &quot;&quot;;</b>
+<b class="fc"><i>89</i>&nbsp;			this.fieldValue = &quot;&quot;;</b>
+<b class="fc"><i>90</i>&nbsp;			this.errorMessage = &quot;&quot;;</b>
+<b class="fc"><i>91</i>&nbsp;		}</b>
 <i>92</i>&nbsp;
 <i>93</i>&nbsp;		protected String getObjectName() {
 <b class="nc"><i>94</i>&nbsp;			return objectName;</b>
 <i>95</i>&nbsp;		}
 <i>96</i>&nbsp;
 <i>97</i>&nbsp;		protected void setObjectName(String objectName) {
-<b class="nc"><i>98</i>&nbsp;			this.objectName = objectName;</b>
-<b class="nc"><i>99</i>&nbsp;		}</b>
+<b class="fc"><i>98</i>&nbsp;			this.objectName = objectName;</b>
+<b class="fc"><i>99</i>&nbsp;		}</b>
 <i>100</i>&nbsp;
 <i>101</i>&nbsp;		protected String getFieldName() {
 <b class="nc"><i>102</i>&nbsp;			return fieldName;</b>
 <i>103</i>&nbsp;		}
 <i>104</i>&nbsp;
 <i>105</i>&nbsp;		protected void setFieldName(String fieldName) {
-<b class="nc"><i>106</i>&nbsp;			this.fieldName = fieldName;</b>
-<b class="nc"><i>107</i>&nbsp;		}</b>
+<b class="fc"><i>106</i>&nbsp;			this.fieldName = fieldName;</b>
+<b class="fc"><i>107</i>&nbsp;		}</b>
 <i>108</i>&nbsp;
 <i>109</i>&nbsp;		protected String getFieldValue() {
 <b class="nc"><i>110</i>&nbsp;			return fieldValue;</b>
 <i>111</i>&nbsp;		}
 <i>112</i>&nbsp;
 <i>113</i>&nbsp;		protected void setFieldValue(String fieldValue) {
-<b class="nc"><i>114</i>&nbsp;			this.fieldValue = fieldValue;</b>
-<b class="nc"><i>115</i>&nbsp;		}</b>
+<b class="fc"><i>114</i>&nbsp;			this.fieldValue = fieldValue;</b>
+<b class="fc"><i>115</i>&nbsp;		}</b>
 <i>116</i>&nbsp;
 <i>117</i>&nbsp;		protected String getErrorMessage() {
 <b class="nc"><i>118</i>&nbsp;			return errorMessage;</b>
 <i>119</i>&nbsp;		}
 <i>120</i>&nbsp;
 <i>121</i>&nbsp;		protected void setErrorMessage(String error_message) {
-<b class="nc"><i>122</i>&nbsp;			this.errorMessage = error_message;</b>
-<b class="nc"><i>123</i>&nbsp;		}</b>
+<b class="fc"><i>122</i>&nbsp;			this.errorMessage = error_message;</b>
+<b class="fc"><i>123</i>&nbsp;		}</b>
 <i>124</i>&nbsp;
 <i>125</i>&nbsp;		@Override
 <i>126</i>&nbsp;		public String toString() {
@@ -236,7 +236,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-11-03 15:36</div>
+    <div style="float:right;">generated on 2019-11-03 23:42</div>
 </div>
 </body>
 </html>

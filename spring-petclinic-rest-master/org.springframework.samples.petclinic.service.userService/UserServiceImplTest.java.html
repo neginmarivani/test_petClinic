@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImplTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring_petclinic_rest$UserServiceImplTest.exec</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.petclinic.service.userService</a> &gt; <span class="el_source">UserServiceImplTest.java</span></div><h1>UserServiceImplTest.java</h1><pre class="source lang-java linenums">package org.springframework.samples.petclinic.service.userService;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImplTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring_petclinic_rest$SpecialtyRestControllerTests.exec</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.petclinic.service.userService</a> &gt; <span class="el_source">UserServiceImplTest.java</span></div><h1>UserServiceImplTest.java</h1><pre class="source lang-java linenums">package org.springframework.samples.petclinic.service.userService;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,72 +21,72 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-<span class="fc" id="L24">public class UserServiceImplTest {</span>
+<span class="nc" id="L24">public class UserServiceImplTest {</span>
 
     @Autowired
     private UserService userService;
 
     @Before
     public void init() {
-<span class="fc" id="L31">        MockitoAnnotations.initMocks(this);</span>
-<span class="fc" id="L32">    }</span>
+<span class="nc" id="L31">        MockitoAnnotations.initMocks(this);</span>
+<span class="nc" id="L32">    }</span>
 
 
     @After
     public void tearDown() throws Exception {
-<span class="fc" id="L37">    }</span>
+<span class="nc" id="L37">    }</span>
 
     @Test
     public void saveUserFirstPrimeTest() throws Exception {
 
-<span class="fc" id="L42">        User user = new User();</span>
-<span class="fc" id="L43">        user.setUsername(&quot;username&quot;);</span>
-<span class="fc" id="L44">        user.setPassword(&quot;password&quot;);</span>
-<span class="fc" id="L45">        user.setEnabled(true);</span>
-<span class="fc" id="L46">        user.addRole(&quot;OWNER_ADMIN&quot;);</span>
-<span class="fc" id="L47">        user.addRole(&quot;ROLE_EDITOR&quot;);</span>
+<span class="nc" id="L42">        User user = new User();</span>
+<span class="nc" id="L43">        user.setUsername(&quot;username&quot;);</span>
+<span class="nc" id="L44">        user.setPassword(&quot;password&quot;);</span>
+<span class="nc" id="L45">        user.setEnabled(true);</span>
+<span class="nc" id="L46">        user.addRole(&quot;OWNER_ADMIN&quot;);</span>
+<span class="nc" id="L47">        user.addRole(&quot;ROLE_EDITOR&quot;);</span>
 
-<span class="fc" id="L49">        userService.saveUser(user);</span>
-<span class="fc" id="L50">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getName().startsWith(&quot;ROLE_&quot;)), is(true));</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getUser() != null), is(true));</span>
-<span class="fc" id="L52">    }</span>
+<span class="nc" id="L49">        userService.saveUser(user);</span>
+<span class="nc" id="L50">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getName().startsWith(&quot;ROLE_&quot;)), is(true));</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getUser() != null), is(true));</span>
+<span class="nc" id="L52">    }</span>
 
     @Test
     public void saveUserThirdPrimeTest() throws Exception {
 
-<span class="fc" id="L57">        User user = new User();</span>
-<span class="fc" id="L58">        user.setUsername(&quot;username&quot;);</span>
-<span class="fc" id="L59">        user.setPassword(&quot;password&quot;);</span>
-<span class="fc" id="L60">        user.setEnabled(true);</span>
-<span class="fc" id="L61">        Role r = new Role();</span>
-<span class="fc" id="L62">        r.setName(&quot;ROLE_A&quot;);</span>
-<span class="fc" id="L63">        r.setUser(user);</span>
-<span class="fc" id="L64">        Set&lt;Role&gt; set = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L65">        set.add(r);</span>
-<span class="fc" id="L66">        user.setRoles(set);</span>
+<span class="nc" id="L57">        User user = new User();</span>
+<span class="nc" id="L58">        user.setUsername(&quot;username&quot;);</span>
+<span class="nc" id="L59">        user.setPassword(&quot;password&quot;);</span>
+<span class="nc" id="L60">        user.setEnabled(true);</span>
+<span class="nc" id="L61">        Role r = new Role();</span>
+<span class="nc" id="L62">        r.setName(&quot;ROLE_A&quot;);</span>
+<span class="nc" id="L63">        r.setUser(user);</span>
+<span class="nc" id="L64">        Set&lt;Role&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L65">        set.add(r);</span>
+<span class="nc" id="L66">        user.setRoles(set);</span>
 
-<span class="fc" id="L68">        userService.saveUser(user);</span>
-<span class="fc" id="L69">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getName().startsWith(&quot;ROLE_&quot;)), is(true));</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getUser() != null), is(true));</span>
-<span class="fc" id="L71">    }</span>
+<span class="nc" id="L68">        userService.saveUser(user);</span>
+<span class="nc" id="L69">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getName().startsWith(&quot;ROLE_&quot;)), is(true));</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        assertThat(user.getRoles().parallelStream().allMatch(role -&gt; role.getUser() != null), is(true));</span>
+<span class="nc" id="L71">    }</span>
     @Test(expected = Exception.class)
     public void saveUserPrimeTest() throws Exception {
 
-<span class="fc" id="L75">        User user = new User();</span>
-<span class="fc" id="L76">        user.setUsername(&quot;username&quot;);</span>
-<span class="fc" id="L77">        user.setPassword(&quot;password&quot;);</span>
-<span class="fc" id="L78">        user.setEnabled(true);</span>
-<span class="fc" id="L79">        Set&lt;Role&gt; set = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L80">        user.setRoles(set);</span>
+<span class="nc" id="L75">        User user = new User();</span>
+<span class="nc" id="L76">        user.setUsername(&quot;username&quot;);</span>
+<span class="nc" id="L77">        user.setPassword(&quot;password&quot;);</span>
+<span class="nc" id="L78">        user.setEnabled(true);</span>
+<span class="nc" id="L79">        Set&lt;Role&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L80">        user.setRoles(set);</span>
 
 <span class="nc" id="L82">        userService.saveUser(user);</span>
 <span class="nc" id="L83">        }</span>
     @Test(expected = Exception.class)
     public void saveUserSecondPrimeTest() throws Exception {
-<span class="fc" id="L86">        User user = new User();</span>
-<span class="fc" id="L87">        user.setUsername(&quot;username&quot;);</span>
-<span class="fc" id="L88">        user.setPassword(&quot;password&quot;);</span>
-<span class="fc" id="L89">        user.setEnabled(true);</span>
+<span class="nc" id="L86">        User user = new User();</span>
+<span class="nc" id="L87">        user.setUsername(&quot;username&quot;);</span>
+<span class="nc" id="L88">        user.setPassword(&quot;password&quot;);</span>
+<span class="nc" id="L89">        user.setEnabled(true);</span>
 <span class="nc" id="L90">        userService.saveUser(user);</span>
 <span class="nc" id="L91">    }</span>
 }

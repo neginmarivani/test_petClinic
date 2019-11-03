@@ -23,12 +23,9 @@
 <h1>Coverage Summary for Class: SpecialtyRestController (org.springframework.samples.petclinic.rest)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
-<th class="coverageStat 
-">
-  Class, %
-</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -45,27 +42,46 @@
     100%
   </span>
   <span class="absValue">
-    (1/ 1)
+    (6/ 6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    91.7%
   </span>
   <span class="absValue">
-    (1/ 6)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    2.8%
-  </span>
-  <span class="absValue">
-    (1/ 36)
+    (33/ 36)
   </span>
 </td>
 </tr>
-
+  <tr>
+    <td class="name">SpecialtyRestController$$EnhancerBySpringCGLIB$$101b2c91</td>
+  </tr>
+  <tr>
+    <td class="name">SpecialtyRestController$$EnhancerBySpringCGLIB$$101b2c91$$FastClassBySpringCGLIB$$8b67a38b</td>
+  </tr>
+  <tr>
+    <td class="name">SpecialtyRestController$$FastClassBySpringCGLIB$$c18d9787</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (33/ 36)
+  </span>
+</td>
+</tr>
 </table>
 
 <br/>
@@ -129,68 +145,68 @@
 <i>55</i>&nbsp;    @PreAuthorize( &quot;hasRole(@roles.VET_ADMIN)&quot; )
 <i>56</i>&nbsp;	@RequestMapping(value = &quot;&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 <i>57</i>&nbsp;	public ResponseEntity&lt;Collection&lt;Specialty&gt;&gt; getAllSpecialtys(){
-<b class="nc"><i>58</i>&nbsp;		Collection&lt;Specialty&gt; specialties = new ArrayList&lt;Specialty&gt;();</b>
-<b class="nc"><i>59</i>&nbsp;		specialties.addAll(this.clinicService.findAllSpecialties());</b>
-<b class="nc"><i>60</i>&nbsp;		if (specialties.isEmpty()){</b>
-<b class="nc"><i>61</i>&nbsp;			return new ResponseEntity&lt;Collection&lt;Specialty&gt;&gt;(HttpStatus.NOT_FOUND);</b>
+<b class="fc"><i>58</i>&nbsp;		Collection&lt;Specialty&gt; specialties = new ArrayList&lt;Specialty&gt;();</b>
+<b class="fc"><i>59</i>&nbsp;		specialties.addAll(this.clinicService.findAllSpecialties());</b>
+<b class="fc"><i>60</i>&nbsp;		if (specialties.isEmpty()){</b>
+<b class="fc"><i>61</i>&nbsp;			return new ResponseEntity&lt;Collection&lt;Specialty&gt;&gt;(HttpStatus.NOT_FOUND);</b>
 <i>62</i>&nbsp;		}
-<b class="nc"><i>63</i>&nbsp;		return new ResponseEntity&lt;Collection&lt;Specialty&gt;&gt;(specialties, HttpStatus.OK);</b>
+<b class="fc"><i>63</i>&nbsp;		return new ResponseEntity&lt;Collection&lt;Specialty&gt;&gt;(specialties, HttpStatus.OK);</b>
 <i>64</i>&nbsp;	}
 <i>65</i>&nbsp;
 <i>66</i>&nbsp;    @PreAuthorize( &quot;hasRole(@roles.VET_ADMIN)&quot; )
 <i>67</i>&nbsp;	@RequestMapping(value = &quot;/{specialtyId}&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 <i>68</i>&nbsp;	public ResponseEntity&lt;Specialty&gt; getSpecialty(@PathVariable(&quot;specialtyId&quot;) int specialtyId){
-<b class="nc"><i>69</i>&nbsp;		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);</b>
-<b class="nc"><i>70</i>&nbsp;		if(specialty == null){</b>
-<b class="nc"><i>71</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(HttpStatus.NOT_FOUND);</b>
+<b class="fc"><i>69</i>&nbsp;		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);</b>
+<b class="fc"><i>70</i>&nbsp;		if(specialty == null){</b>
+<b class="fc"><i>71</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(HttpStatus.NOT_FOUND);</b>
 <i>72</i>&nbsp;		}
-<b class="nc"><i>73</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(specialty, HttpStatus.OK);</b>
+<b class="fc"><i>73</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(specialty, HttpStatus.OK);</b>
 <i>74</i>&nbsp;	}
 <i>75</i>&nbsp;
 <i>76</i>&nbsp;    @PreAuthorize( &quot;hasRole(@roles.VET_ADMIN)&quot; )
 <i>77</i>&nbsp;	@RequestMapping(value = &quot;&quot;, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 <i>78</i>&nbsp;	public ResponseEntity&lt;Specialty&gt; addSpecialty(@RequestBody @Valid Specialty specialty, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
-<b class="nc"><i>79</i>&nbsp;		BindingErrorsResponse errors = new BindingErrorsResponse();</b>
-<b class="nc"><i>80</i>&nbsp;		HttpHeaders headers = new HttpHeaders();</b>
-<b class="nc"><i>81</i>&nbsp;		if(bindingResult.hasErrors() || (specialty == null)){</b>
-<b class="nc"><i>82</i>&nbsp;			errors.addAllErrors(bindingResult);</b>
+<b class="fc"><i>79</i>&nbsp;		BindingErrorsResponse errors = new BindingErrorsResponse();</b>
+<b class="fc"><i>80</i>&nbsp;		HttpHeaders headers = new HttpHeaders();</b>
+<b class="fc"><i>81</i>&nbsp;		if(bindingResult.hasErrors() || (specialty == null)){</b>
+<b class="fc"><i>82</i>&nbsp;			errors.addAllErrors(bindingResult);</b>
 <b class="nc"><i>83</i>&nbsp;			headers.add(&quot;errors&quot;, errors.toJSON());</b>
 <b class="nc"><i>84</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(headers, HttpStatus.BAD_REQUEST);</b>
 <i>85</i>&nbsp;		}
-<b class="nc"><i>86</i>&nbsp;		this.clinicService.saveSpecialty(specialty);</b>
-<b class="nc"><i>87</i>&nbsp;		headers.setLocation(ucBuilder.path(&quot;/api/specialtys/{id}&quot;).buildAndExpand(specialty.getId()).toUri());</b>
-<b class="nc"><i>88</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(specialty, headers, HttpStatus.CREATED);</b>
+<b class="fc"><i>86</i>&nbsp;		this.clinicService.saveSpecialty(specialty);</b>
+<b class="fc"><i>87</i>&nbsp;		headers.setLocation(ucBuilder.path(&quot;/api/specialtys/{id}&quot;).buildAndExpand(specialty.getId()).toUri());</b>
+<b class="fc"><i>88</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(specialty, headers, HttpStatus.CREATED);</b>
 <i>89</i>&nbsp;	}
 <i>90</i>&nbsp;
 <i>91</i>&nbsp;    @PreAuthorize( &quot;hasRole(@roles.VET_ADMIN)&quot; )
 <i>92</i>&nbsp;	@RequestMapping(value = &quot;/{specialtyId}&quot;, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 <i>93</i>&nbsp;	public ResponseEntity&lt;Specialty&gt; updateSpecialty(@PathVariable(&quot;specialtyId&quot;) int specialtyId, @RequestBody @Valid Specialty specialty, BindingResult bindingResult){
-<b class="nc"><i>94</i>&nbsp;		BindingErrorsResponse errors = new BindingErrorsResponse();</b>
-<b class="nc"><i>95</i>&nbsp;		HttpHeaders headers = new HttpHeaders();</b>
-<b class="nc"><i>96</i>&nbsp;		if(bindingResult.hasErrors() || (specialty == null)){</b>
-<b class="nc"><i>97</i>&nbsp;			errors.addAllErrors(bindingResult);</b>
-<b class="nc"><i>98</i>&nbsp;			headers.add(&quot;errors&quot;, errors.toJSON());</b>
-<b class="nc"><i>99</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(headers, HttpStatus.BAD_REQUEST);</b>
+<b class="fc"><i>94</i>&nbsp;		BindingErrorsResponse errors = new BindingErrorsResponse();</b>
+<b class="fc"><i>95</i>&nbsp;		HttpHeaders headers = new HttpHeaders();</b>
+<b class="fc"><i>96</i>&nbsp;		if(bindingResult.hasErrors() || (specialty == null)){</b>
+<b class="fc"><i>97</i>&nbsp;			errors.addAllErrors(bindingResult);</b>
+<b class="fc"><i>98</i>&nbsp;			headers.add(&quot;errors&quot;, errors.toJSON());</b>
+<b class="fc"><i>99</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(headers, HttpStatus.BAD_REQUEST);</b>
 <i>100</i>&nbsp;		}
-<b class="nc"><i>101</i>&nbsp;		Specialty currentSpecialty = this.clinicService.findSpecialtyById(specialtyId);</b>
-<b class="nc"><i>102</i>&nbsp;		if(currentSpecialty == null){</b>
+<b class="fc"><i>101</i>&nbsp;		Specialty currentSpecialty = this.clinicService.findSpecialtyById(specialtyId);</b>
+<b class="fc"><i>102</i>&nbsp;		if(currentSpecialty == null){</b>
 <b class="nc"><i>103</i>&nbsp;			return new ResponseEntity&lt;Specialty&gt;(HttpStatus.NOT_FOUND);</b>
 <i>104</i>&nbsp;		}
-<b class="nc"><i>105</i>&nbsp;		currentSpecialty.setName(specialty.getName());</b>
-<b class="nc"><i>106</i>&nbsp;		this.clinicService.saveSpecialty(currentSpecialty);</b>
-<b class="nc"><i>107</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(currentSpecialty, HttpStatus.NO_CONTENT);</b>
+<b class="fc"><i>105</i>&nbsp;		currentSpecialty.setName(specialty.getName());</b>
+<b class="fc"><i>106</i>&nbsp;		this.clinicService.saveSpecialty(currentSpecialty);</b>
+<b class="fc"><i>107</i>&nbsp;		return new ResponseEntity&lt;Specialty&gt;(currentSpecialty, HttpStatus.NO_CONTENT);</b>
 <i>108</i>&nbsp;	}
 <i>109</i>&nbsp;
 <i>110</i>&nbsp;    @PreAuthorize( &quot;hasRole(@roles.VET_ADMIN)&quot; )
 <i>111</i>&nbsp;	@RequestMapping(value = &quot;/{specialtyId}&quot;, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 <i>112</i>&nbsp;	@Transactional
 <i>113</i>&nbsp;	public ResponseEntity&lt;Void&gt; deleteSpecialty(@PathVariable(&quot;specialtyId&quot;) int specialtyId){
-<b class="nc"><i>114</i>&nbsp;		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);</b>
-<b class="nc"><i>115</i>&nbsp;		if(specialty == null){</b>
-<b class="nc"><i>116</i>&nbsp;			return new ResponseEntity&lt;Void&gt;(HttpStatus.NOT_FOUND);</b>
+<b class="fc"><i>114</i>&nbsp;		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);</b>
+<b class="fc"><i>115</i>&nbsp;		if(specialty == null){</b>
+<b class="fc"><i>116</i>&nbsp;			return new ResponseEntity&lt;Void&gt;(HttpStatus.NOT_FOUND);</b>
 <i>117</i>&nbsp;		}
-<b class="nc"><i>118</i>&nbsp;		this.clinicService.deleteSpecialty(specialty);</b>
-<b class="nc"><i>119</i>&nbsp;		return new ResponseEntity&lt;Void&gt;(HttpStatus.NO_CONTENT);</b>
+<b class="fc"><i>118</i>&nbsp;		this.clinicService.deleteSpecialty(specialty);</b>
+<b class="fc"><i>119</i>&nbsp;		return new ResponseEntity&lt;Void&gt;(HttpStatus.NO_CONTENT);</b>
 <i>120</i>&nbsp;	}
 <i>121</i>&nbsp;
 <i>122</i>&nbsp;}
@@ -199,7 +215,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-11-03 15:36</div>
+    <div style="float:right;">generated on 2019-11-03 23:42</div>
 </div>
 </body>
 </html>
